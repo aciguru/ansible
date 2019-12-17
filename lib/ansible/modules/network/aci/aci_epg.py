@@ -303,6 +303,7 @@ def main():
         fwd_control=dict(type='str', choices=['none', 'proxy-arp']),
         preferred_group=dict(type='bool'),
         state=dict(type='str', default='present', choices=['absent', 'present', 'query']),
+        nameAlias=dict(type='str', aliases=['nameAlias_name', 'alias']),
     )
 
     module = AnsibleModule(
@@ -326,6 +327,7 @@ def main():
     state = module.params.get('state')
     tenant = module.params.get('tenant')
     ap = module.params.get('ap')
+    nameAlias = module.params.get('nameAlias')
 
     aci.construct_url(
         root_class=dict(
@@ -361,6 +363,7 @@ def main():
                 pcEnfPref=intra_epg_isolation,
                 fwdCtrl=fwd_control,
                 prefGrMemb=preferred_group,
+                nameAlias=nameAlias,
             ),
             child_configs=[dict(
                 fvRsBd=dict(
